@@ -145,8 +145,12 @@ public class Islemler {
             if (sonuc == -1) {
                 System.out.println("urun listede bulunmamaktadir");
             } else {
-                depo.urunRafaKoy(urunId, urunRafNo);
-                System.out.println("urun rafa yerlestirildi");
+                if (depo.urunList.get(sonuc).getUrunmiktar() == 0) {
+                    System.out.println("Yerlestirecek urun miktari bulunamadi.Once urun girisi yapmalisiniz");
+                } else {
+                    depo.urunRafaKoy(urunId, urunRafNo);
+                    System.out.println("urun rafa yerlestirildi");
+                }
             }
         }catch(Exception e){
             System.out.println("Hatali giris yaptiniz.Tekrar deneyin.");
