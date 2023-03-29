@@ -26,6 +26,7 @@ public class Islemler {
                 + "   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯             ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯       " + B);
 
         System.out.print("Islem seciniz : ");
+        boolean catchCalistiMi=false;
         int secim=0;
         try {
             String secimText = scan.nextLine();
@@ -33,6 +34,7 @@ public class Islemler {
         }
         catch (Exception exp){
             System.out.println("Hatali giris yaptiniz. Tekrar deneyiniz.");
+            catchCalistiMi=true;
         }
 
         switch (secim) {
@@ -64,7 +66,9 @@ public class Islemler {
                 cikis();
                 break;
             default:
-                System.out.println("Hatali deger girdiniz");
+                if(!catchCalistiMi){
+                    System.out.println("Hatali deger girdiniz.1 ile 6 arasinda bir deger giriniz");
+                }
                 girisEkrani();
 
         }
@@ -82,16 +86,16 @@ public class Islemler {
             String uruntext = scan.nextLine();
             int urunId = Integer.parseInt(uruntext);
 
-            System.out.println("urun miktari giriniz");
-            String urunMiktarText= scan.nextLine();
-            int urunMiktar = Integer.parseInt(urunMiktarText);
+            System.out.println("cikarilacak urun miktari giriniz");
+            String cikarilacakMiktarText= scan.nextLine();
+            int cikarilacakMiktar = Integer.parseInt(cikarilacakMiktarText);
 
-            int index = depo.urunVarmi(urunId);
-            int urunSayisi = depo.urunList.get(index).getUrunmiktar();
-            if (urunSayisi < urunMiktar) {
+            int index = depo.getUrunIndex(urunId);
+            int mevcutMiktar = depo.urunList.get(index).getUrunmiktar();
+            if (mevcutMiktar < cikarilacakMiktar) {
                 System.out.println("Girdiginiz miktar, mevcut miktardan fazladir. Tekrar giris yapiniz.");
             } else {
-                int yeniMiktar = depo.urunSat(urunId, urunMiktar);
+                int yeniMiktar = depo.urunSat(urunId, cikarilacakMiktar);
                 System.out.println("Urun cikisi yapilmistir.Urun miktari:" + yeniMiktar);
             }
         } catch (Exception e) {
@@ -105,11 +109,11 @@ public class Islemler {
             System.out.println("urunId giriniz");
             String uruntext= scan.nextLine();
             int urunId = Integer.parseInt(uruntext);
-            System.out.println("urun miktari giriniz");
+            System.out.println("girilecek urun miktari giriniz");
             String urunMiktarText = scan.nextLine();
-            int urunMiktar = Integer.parseInt(urunMiktarText);
+            int girilecekMiktar = Integer.parseInt(urunMiktarText);
 
-            System.out.println("Urun girisi yapilmistir.Urun sayisi:" + (depo.urunGir(urunId, urunMiktar)));
+            System.out.println("Urun girisi yapilmistir.Urun miktari:" + (depo.urunGir(urunId, girilecekMiktar)));
 
         } catch (Exception e) {
             System.out.println("Hatali giris yaptiniz.Tekrar deneyin.");
@@ -137,7 +141,7 @@ public class Islemler {
             System.out.println("urun raf numarasi girin");
             String urunRafText = scan.nextLine();
             int urunRafNo = Integer.parseInt(urunRafText);
-            int sonuc = depo.urunVarmi(urunId);
+            int sonuc = depo.getUrunIndex(urunId);
             if (sonuc == -1) {
                 System.out.println("urun listede bulunmamaktadir");
             } else {

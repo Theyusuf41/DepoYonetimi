@@ -1,34 +1,32 @@
 package DepoYonetimiEda;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class Depo implements urunTanimlama,urunAlis,urunSatis{
    int urunId=1000;
-    Scanner scan = new Scanner(System.in);
     ArrayList<Urun>urunList=new ArrayList<Urun>();
     @Override
-    public int urunGir(int urunId, int urunMiktarı) {
+    public int urunGir(int urunId, int girilecekMiktar) {
 
-        int index=urunVarmi(urunId);
-        int urunSayisi =urunList.get(index).getUrunmiktar();
-        urunSayisi+=urunMiktarı;
-        urunList.get(index).setUrunmiktar(urunSayisi);
+        int index= getUrunIndex(urunId);
+        int mevcutMiktar =urunList.get(index).getUrunmiktar();
+        mevcutMiktar+=girilecekMiktar;
+        urunList.get(index).setUrunmiktar(mevcutMiktar);
 
-        return urunSayisi;
+        return mevcutMiktar;
 
     }
 
     @Override
-    public int urunSat(int urunId, int urunMiktarı) {
-        int index=urunVarmi(urunId);
-        int urunSayisi =urunList.get(index).getUrunmiktar();
+    public int urunSat(int urunId, int cikarilacakMiktar) {
+        int index= getUrunIndex(urunId);
+        int mevcutMiktar =urunList.get(index).getUrunmiktar();
 
-        urunSayisi-=urunMiktarı;
+        mevcutMiktar-=cikarilacakMiktar;
 
-        urunList.get(index).setUrunmiktar(urunSayisi);
-        return urunSayisi;
+        urunList.get(index).setUrunmiktar(mevcutMiktar);
+        return mevcutMiktar;
     }
 
     @Override
@@ -42,11 +40,11 @@ public class Depo implements urunTanimlama,urunAlis,urunSatis{
 
     @Override
     public void urunRafaKoy(int id, int rafNo) {
-        int index = urunVarmi(id);
+        int index = getUrunIndex(id);
         urunList.get(index).setRafNo(rafNo);
     }
 
-    public int urunVarmi(int id){//urunun indexini buluyorum
+    public int getUrunIndex(int id){//urunun indexini buluyorum
         //Urun yoksa -1, varsa urunun urun listesindeki indexini don
         int index=-1;
         for (int j= 0; j < urunList.size(); j++) {
